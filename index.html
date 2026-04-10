@@ -1,0 +1,2529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="FORGE — A science-backed hypertrophy and fat loss training program combining gym and kickboxing for aesthetic, long-term results.">
+<title>FORGE — Weekly Training Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   FORGE DESIGN SYSTEM
+═══════════════════════════════════════ */
+:root {
+  --bg:        #0C0C0D;
+  --surface:   #131315;
+  --card:      #1A1A1D;
+  --card2:     #212124;
+  --border:    #28282C;
+  --border2:   #333338;
+  --accent:    #FF5722;
+  --accent-lo: rgba(255,87,34,.12);
+  --amber:     #FFA040;
+  --amber-lo:  rgba(255,160,64,.12);
+  --cyan:      #3FFFDA;
+  --cyan-lo:   rgba(63,255,218,.1);
+  --purple:    #C07AFF;
+  --purple-lo: rgba(192,122,255,.1);
+  --green:     #5EFFA0;
+  --green-lo:  rgba(94,255,160,.1);
+  --blue:      #4FC3F7;
+  --blue-lo:   rgba(79,195,247,.1);
+  --text:      #F0EEE8;
+  --text2:     #B8B6B0;
+  --muted:     #7A7880;
+  --muted2:    #50505A;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── NOISE TEXTURE OVERLAY ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: .35;
+}
+
+/* ═══════════════════════════════════════
+   HEADER
+═══════════════════════════════════════ */
+.forge-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(12,12,13,.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.forge-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 62px;
+  gap: 20px;
+}
+
+.forge-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.forge-flame {
+  width: 38px; height: 38px;
+  background: var(--accent);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 0 20px rgba(255,87,34,.4);
+  flex-shrink: 0;
+}
+
+.forge-wordmark {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30px;
+  letter-spacing: 4px;
+  color: var(--text);
+  line-height: 1;
+}
+
+.forge-wordmark span { color: var(--accent); }
+
+.forge-tagline {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: 2px;
+}
+
+.forge-pills {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.forge-pill {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.forge-pill strong { color: var(--accent); }
+.forge-pill.cyan strong { color: var(--cyan); }
+.forge-pill.green strong { color: var(--green); }
+
+/* ═══════════════════════════════════════
+   WEEK NAVIGATION
+═══════════════════════════════════════ */
+.week-nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0 40px;
+}
+
+.week-nav::-webkit-scrollbar { display: none; }
+
+.wday-btn {
+  flex: 1;
+  min-width: 80px;
+  padding: 10px 8px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  text-align: center;
+  position: relative;
+  transition: border-color .2s, background .15s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.wday-btn:hover { background: rgba(255,255,255,.02); }
+.wday-btn.active { border-bottom-color: var(--accent); }
+.wday-btn.active .wn-abbr { color: var(--accent); }
+
+.wn-abbr {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color .2s;
+  display: block;
+}
+
+.wn-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  display: block;
+  margin-top: 3px;
+  padding-bottom: 8px;
+}
+
+.wn-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  margin: 3px auto 6px;
+}
+
+.dot-gym     { background: var(--accent); }
+.dot-kb      { background: var(--cyan); }
+.dot-rest    { background: var(--muted2); }
+
+/* ═══════════════════════════════════════
+   MAIN LAYOUT
+═══════════════════════════════════════ */
+.main-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px 100px;
+  position: relative;
+  z-index: 1;
+}
+
+.day-panel { display: none; }
+.day-panel.active {
+  display: block;
+  animation: panelIn .22s ease;
+}
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════
+   DAY HERO
+═══════════════════════════════════════ */
+.day-hero {
+  margin-bottom: 24px;
+}
+
+.day-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.day-headline {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(48px, 8vw, 88px);
+  line-height: .92;
+  letter-spacing: 2px;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.day-headline em { color: var(--accent); font-style: normal; }
+.day-headline.cyan em { color: var(--cyan); }
+.day-headline.rest em { color: var(--muted); }
+
+.day-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.dchip {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 5px 11px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--muted);
+}
+
+.dchip strong { color: var(--text); }
+
+/* ═══════════════════════════════════════
+   TIMELINE BAR
+═══════════════════════════════════════ */
+.tl-bar {
+  display: flex;
+  height: 34px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+
+.tl-seg {
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  color: rgba(0,0,0,.8);
+  padding: 0 6px;
+}
+
+.tls-warmup  { background: #FF9A3C; }
+.tls-main    { background: #FF5722; color: rgba(255,255,255,.9); }
+.tls-cardio  { background: #4FC3F7; }
+.tls-hiit    { background: #FF3D00; color: rgba(255,255,255,.9); }
+.tls-stretch { background: #C07AFF; color: rgba(255,255,255,.9); }
+.tls-kb      { background: #3FFFDA; }
+.tls-mob     { background: #C07AFF; color: rgba(255,255,255,.9); }
+
+/* ═══════════════════════════════════════
+   BANNERS
+═══════════════════════════════════════ */
+.focus-banner {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.focus-banner strong { color: var(--accent); }
+.focus-banner .kw    { color: var(--text); font-weight: 600; }
+
+.rir-banner {
+  background: var(--amber-lo);
+  border: 1px solid rgba(255,160,64,.2);
+  border-radius: 6px;
+  padding: 10px 16px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  gap: 10px;
+  line-height: 1.65;
+}
+
+.rir-banner strong { color: var(--amber); }
+
+/* ═══════════════════════════════════════
+   PHASE BLOCKS
+═══════════════════════════════════════ */
+.phases { display: flex; flex-direction: column; gap: 6px; }
+
+.phase {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.phase-hdr {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: background .15s;
+}
+
+.phase-hdr:hover { background: rgba(255,255,255,.02); }
+
+.ph-icon {
+  width: 38px; height: 38px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+
+.phi-warmup  { background: var(--amber-lo); }
+.phi-main    { background: var(--accent-lo); }
+.phi-cardio  { background: var(--blue-lo); }
+.phi-stretch { background: var(--purple-lo); }
+.phi-kb      { background: var(--cyan-lo); }
+.phi-info    { background: rgba(255,255,255,.05); }
+
+.ph-meta { flex: 1; min-width: 0; }
+
+.ph-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 19px;
+  letter-spacing: 1px;
+  color: var(--text);
+}
+
+.ph-sub {
+  font-size: 10px;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1px;
+  margin-top: 1px;
+}
+
+.ph-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--muted2);
+  flex-shrink: 0;
+}
+
+.ph-chevron {
+  color: var(--muted2);
+  flex-shrink: 0;
+  transition: transform .22s;
+  font-size: 12px;
+}
+
+.phase.open .ph-chevron { transform: rotate(180deg); }
+
+.phase-body {
+  display: none;
+  border-top: 1px solid var(--border);
+}
+
+.phase.open .phase-body { display: block; }
+
+/* ═══════════════════════════════════════
+   WARMUP LIST
+═══════════════════════════════════════ */
+.wu-list {
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.wu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.wu-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--amber);
+  flex-shrink: 0;
+}
+
+.wu-name { font-size: 13px; font-weight: 500; flex: 1; }
+
+.wu-spec {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
+}
+
+.wu-sets-box {
+  margin: 0 20px 14px;
+  background: var(--amber-lo);
+  border: 1px solid rgba(255,160,64,.2);
+  border-radius: 6px;
+  padding: 11px 15px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.75;
+  display: flex;
+  gap: 10px;
+}
+
+.wu-sets-box strong { color: var(--amber); }
+
+/* ═══════════════════════════════════════
+   EXERCISE TABLE
+═══════════════════════════════════════ */
+.ex-table { width: 100%; }
+
+.ex-thead {
+  display: grid;
+  grid-template-columns: 28px 1fr 56px 88px 76px;
+  padding: 7px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.exth {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--muted2);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.ex-row-wrap {
+  border-bottom: 1px solid var(--border);
+}
+
+.ex-row-wrap:last-child { border-bottom: none; }
+
+.ex-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 56px 88px 76px;
+  padding: 12px 20px;
+  align-items: center;
+  transition: background .1s;
+}
+
+.ex-row:hover { background: rgba(255,255,255,.018); }
+
+.ex-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--muted2);
+}
+
+.ex-info {}
+
+.ex-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.ex-equip {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+.ex-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.etag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border: none;
+  line-height: 1.6;
+  transition: opacity .15s;
+}
+
+.etag:hover { opacity: .8; }
+
+.etag-wu   { background: var(--amber-lo); color: var(--amber); cursor: default; }
+.etag-swap { background: var(--cyan-lo);  color: var(--cyan);  cursor: pointer; }
+.etag-tip  { background: var(--purple-lo);color: var(--purple);cursor: pointer; }
+
+.ex-sets {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  color: var(--accent);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.ex-sets-lbl {
+  font-size: 8px;
+  color: var(--muted2);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+.ex-reps {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.3;
+}
+
+.ex-rest-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--blue);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  transition: color .15s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ex-rest-btn:hover { color: var(--cyan); }
+.ex-rest-btn::before { content: '⏱'; font-size: 10px; }
+
+/* ─── EXPANDED ROWS ─── */
+.ex-expand {
+  display: none;
+  padding: 10px 20px 12px 48px;
+  background: rgba(255,255,255,.012);
+  border-top: 1px dashed var(--border);
+}
+
+.ex-expand.open { display: block; }
+
+.expand-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 8px;
+}
+
+.el-swap  { color: var(--cyan); }
+.el-tip   { color: var(--purple); }
+
+.swap-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.swap-chip {
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--text2);
+}
+
+.tip-body {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.tip-body strong { color: var(--purple); }
+.tip-body em     { color: var(--amber); font-style: normal; }
+
+/* ═══════════════════════════════════════
+   CARDIO BLOCK
+═══════════════════════════════════════ */
+.cardio-wrap { padding: 18px 20px; }
+
+.cardio-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--blue);
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+
+.cc-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.cc-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+.cc-badge {
+  padding: 3px 9px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 2px;
+}
+
+.ccb-z2   { background: var(--blue-lo);  color: var(--blue); }
+.ccb-hiit { background: var(--accent-lo); color: var(--accent); }
+
+.cc-stats {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.ccs-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--blue);
+  line-height: 1;
+}
+
+.ccs-lbl {
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.cc-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.hr-zone {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  background: var(--green-lo);
+  border: 1px solid rgba(94,255,160,.2);
+  color: var(--green);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.hz-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════
+   COOL-DOWN STRETCH
+═══════════════════════════════════════ */
+.stretch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 8px;
+  padding: 14px 20px;
+}
+
+.si {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+  display: flex;
+  gap: 10px;
+}
+
+.si-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--purple);
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.si-name { font-size: 13px; font-weight: 600; }
+.si-hold { font-size: 11px; color: var(--purple); font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
+.si-tip  { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.55; }
+
+/* ═══════════════════════════════════════
+   KICKBOXING DAY
+═══════════════════════════════════════ */
+.kb-hero {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 40px 32px;
+  text-align: center;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kb-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(63,255,218,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.kb-icon { font-size: 52px; margin-bottom: 14px; }
+
+.kb-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 56px;
+  letter-spacing: 4px;
+  color: var(--cyan);
+  margin-bottom: 10px;
+}
+
+.kb-sub {
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.kb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.kb-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: left;
+}
+
+.kb-card-icon { font-size: 22px; margin-bottom: 8px; }
+.kb-card-ttl  { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.kb-card-body { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+.kb-morning {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════
+   REST DAY
+═══════════════════════════════════════ */
+.rest-container {
+  text-align: center;
+  padding: 60px 20px 40px;
+}
+
+.rest-emoji { font-size: 60px; margin-bottom: 16px; }
+
+.rest-ttl {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 72px;
+  letter-spacing: 5px;
+  color: var(--muted2);
+  margin-bottom: 12px;
+}
+
+.rest-desc {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 500px;
+  margin: 0 auto 36px;
+  line-height: 1.8;
+}
+
+.rest-pillars {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.rp {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 16px;
+  max-width: 155px;
+  text-align: center;
+}
+
+.rp-icon  { font-size: 28px; margin-bottom: 8px; }
+.rp-ttl   { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+.rp-body  { font-size: 11px; color: var(--muted); line-height: 1.6; }
+
+.deload-box {
+  max-width: 580px;
+  margin: 36px auto 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  text-align: left;
+}
+
+.deload-ttl {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.deload-body {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.deload-body strong { color: var(--text); }
+
+/* ═══════════════════════════════════════
+   REST TIMER WIDGET
+═══════════════════════════════════════ */
+.timer-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.timer-fab {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 24px rgba(255,87,34,.5);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .15s, box-shadow .15s;
+  flex-shrink: 0;
+}
+
+.timer-fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 28px rgba(255,87,34,.6);
+}
+
+.timer-panel {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 18px;
+  width: 210px;
+  display: none;
+  box-shadow: 0 16px 48px rgba(0,0,0,.6);
+}
+
+.timer-panel.open { display: block; }
+
+.timer-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.timer-display {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 56px;
+  letter-spacing: 3px;
+  color: var(--accent);
+  text-align: center;
+  line-height: 1;
+  margin-bottom: 12px;
+  transition: color .3s;
+}
+
+.timer-display.done { color: var(--green); }
+.timer-display.running { color: var(--amber); }
+
+.timer-presets {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.tp-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  padding: 4px 9px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  cursor: pointer;
+  transition: all .15s;
+}
+
+.tp-btn:hover, .tp-btn.sel {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.timer-controls { display: flex; gap: 6px; }
+
+.tc-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  transition: all .15s;
+}
+
+.tcb-start { background: var(--accent); color: white; }
+.tcb-start:hover { background: #E64A19; }
+.tcb-reset { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+.tcb-reset:hover { color: var(--text); }
+
+.timer-prog {
+  width: 100%;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+.timer-bar {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width .8s linear, background .3s;
+  width: 100%;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+.forge-footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 28px 40px;
+  text-align: center;
+}
+
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 4px;
+  color: var(--muted2);
+  margin-bottom: 6px;
+}
+
+.footer-logo span { color: var(--accent); }
+
+.footer-copy {
+  font-size: 10px;
+  color: var(--muted2);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1px;
+}
+
+/* ═══════════════════════════════════════
+   UTILITY
+═══════════════════════════════════════ */
+.inner-note {
+  margin: 0 20px 14px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+  display: flex;
+  gap: 10px;
+}
+
+.inner-note.accent-note {
+  background: var(--accent-lo);
+  border: 1px solid rgba(255,87,34,.18);
+}
+
+.inner-note.accent-note strong { color: var(--accent); }
+.inner-note.cyan-note {
+  background: var(--cyan-lo);
+  border: 1px solid rgba(63,255,218,.18);
+}
+
+.inner-note.cyan-note strong { color: var(--cyan); }
+
+.ph-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0 20px;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (max-width: 700px) {
+  .forge-nav { padding: 0 16px; }
+  .forge-pills { display: none; }
+  .week-nav { padding: 0 16px; }
+  .wday-btn { min-width: 64px; }
+  .wn-label { font-size: 10px; }
+  .main-wrap { padding: 20px 12px 90px; }
+  .ex-thead, .ex-row {
+    grid-template-columns: 22px 1fr 48px 76px;
+  }
+  .exth:last-child, .ex-rest-btn { display: none; }
+  .day-headline { font-size: clamp(40px, 10vw, 72px); }
+  .forge-footer { padding: 20px 16px; }
+  .timer-widget { bottom: 12px; right: 12px; }
+}
+
+@media print {
+  .timer-widget, .forge-header { display: none; }
+  body { background: white; color: black; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header class="forge-header">
+  <nav class="forge-nav">
+    <a href="#" class="forge-logo">
+      <div class="forge-flame">🔥</div>
+      <div>
+        <div class="forge-wordmark">FORGE<span>.</span></div>
+        <div class="forge-tagline">Build the body. Forge the will.</div>
+      </div>
+    </a>
+    <div class="forge-pills">
+      <div class="forge-pill"><strong>4</strong> Gym Days</div>
+      <div class="forge-pill cyan"><strong>3×</strong> Kickboxing</div>
+      <div class="forge-pill green"><strong>2×</strong> Freq / Muscle</div>
+      <div class="forge-pill"><strong>Goal:</strong> Fat Loss + Muscle</div>
+    </div>
+  </nav>
+</header>
+
+<!-- ═══════════════ WEEK NAV ═══════════════ -->
+<nav class="week-nav" id="weekNav">
+  <button class="wday-btn active" onclick="switchDay(0)">
+    <span class="wn-abbr">MON</span>
+    <span class="wn-label">Kickboxing</span>
+    <div class="wn-dot dot-kb"></div>
+  </button>
+  <button class="wday-btn" onclick="switchDay(1)">
+    <span class="wn-abbr">TUE</span>
+    <span class="wn-label">Chest + Back</span>
+    <div class="wn-dot dot-gym"></div>
+  </button>
+  <button class="wday-btn" onclick="switchDay(2)">
+    <span class="wn-abbr">WED</span>
+    <span class="wn-label">Kickboxing</span>
+    <div class="wn-dot dot-kb"></div>
+  </button>
+  <button class="wday-btn" onclick="switchDay(3)">
+    <span class="wn-abbr">THU</span>
+    <span class="wn-label">Glutes + Hams</span>
+    <div class="wn-dot dot-gym"></div>
+  </button>
+  <button class="wday-btn" onclick="switchDay(4)">
+    <span class="wn-abbr">FRI</span>
+    <span class="wn-label">Full Rest</span>
+    <div class="wn-dot dot-rest"></div>
+  </button>
+  <button class="wday-btn" onclick="switchDay(5)">
+    <span class="wn-abbr">SAT</span>
+    <span class="wn-label">Shoulders + Arms</span>
+    <div class="wn-dot dot-gym"></div>
+  </button>
+  <button class="wday-btn" onclick="switchDay(6)">
+    <span class="wn-abbr">SUN</span>
+    <span class="wn-label">Quads + Calves</span>
+    <div class="wn-dot dot-gym"></div>
+  </button>
+</nav>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main class="main-wrap">
+
+<!-- ─────────────────────────────────────
+     MONDAY — KICKBOXING
+───────────────────────────────────── -->
+<div class="day-panel active" id="day-0">
+  <div class="day-hero">
+    <div class="day-eyebrow">Monday · Evening</div>
+    <div class="day-headline cyan">KICKBOX<em>ING</em></div>
+    <div class="day-chips">
+      <div class="dchip">Evening Class <strong>~60–75 min</strong></div>
+      <div class="dchip">Calories Burned <strong>~500–700 kcal</strong></div>
+      <div class="dchip">Morning <strong>Free / Light Walk</strong></div>
+    </div>
+  </div>
+
+  <div class="tl-bar">
+    <div class="tl-seg tls-mob" style="flex:1">MORNING MOB</div>
+    <div class="tl-seg tls-kb" style="flex:3">KICKBOXING EVENING 60–75m</div>
+  </div>
+
+  <div class="focus-banner" style="border-left-color:var(--cyan)">
+    <strong style="color:var(--cyan)">TODAY'S PURPOSE:</strong> You trained chest and back tomorrow — today is active recovery in the morning and fat-burning combat cardio in the evening. <span class="kw">Kickboxing burns fat nothing else can replicate.</span> This is where your body fat comes off fastest. Show up.
+  </div>
+
+  <div class="kb-hero">
+    <div class="kb-icon">🥊</div>
+    <div class="kb-title">FIGHT NIGHT</div>
+    <div class="kb-sub">Kickboxing 3× per week is the most powerful fat-loss tool in your program. A single session burns 500–700 kcal, improves cardiovascular fitness, builds coordination, and — critically — preserves muscle in a way steady-state cardio cannot. You are not just losing fat. You are becoming athletic.</div>
+
+    <div class="kb-grid">
+      <div class="kb-card">
+        <div class="kb-card-icon">🍽️</div>
+        <div class="kb-card-ttl">Pre-Session Nutrition</div>
+        <div class="kb-card-body">Eat a balanced meal 90–120 min before class. Carbs + protein. Avoid training on empty — you'll gas out fast. Soy protein shake if short on time.</div>
+      </div>
+      <div class="kb-card">
+        <div class="kb-card-icon">💧</div>
+        <div class="kb-card-ttl">Hydration</div>
+        <div class="kb-card-body">2 glasses of water 1 hour before. Bring a water bottle. Kickboxing sweat rates are high — dehydration kills both performance and recovery.</div>
+      </div>
+      <div class="kb-card">
+        <div class="kb-card-icon">🧠</div>
+        <div class="kb-card-ttl">Mindset</div>
+        <div class="kb-card-body">Be a beginner without ego. Focus on technique over power. Every session your coordination and cardio improves — track it.</div>
+      </div>
+      <div class="kb-card">
+        <div class="kb-card-icon">🛡️</div>
+        <div class="kb-card-ttl">Equipment</div>
+        <div class="kb-card-body">Hand wraps + gloves are mandatory. Ask the gym if they provide them initially. Proper wrapping protects your wrist joints long-term.</div>
+      </div>
+      <div class="kb-card">
+        <div class="kb-card-icon">❄️</div>
+        <div class="kb-card-ttl">Post-Session</div>
+        <div class="kb-card-body">5 min cool-down stretch. Hit protein target within 45 min. Cold shower optional but excellent for reducing inflammation.</div>
+      </div>
+      <div class="kb-card">
+        <div class="kb-card-icon">😴</div>
+        <div class="kb-card-ttl">Sleep Priority</div>
+        <div class="kb-card-body">Evening training can delay sleep. Wind down 60 min before bed — no screens, dim light. 7–9h sleep is non-negotiable for fat loss + recovery.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="kb-morning">
+    <div class="phase-hdr" onclick="togglePhase(this)" style="cursor:pointer">
+      <div class="ph-icon phi-stretch">🌅</div>
+      <div class="ph-meta">
+        <div class="ph-title">Optional Morning Routine</div>
+        <div class="ph-sub">10–15 min · Light movement · Sets up the day</div>
+      </div>
+      <div class="ph-chevron">▾</div>
+    </div>
+    <div class="phase-body" style="display:none">
+      <div class="wu-list">
+        <div class="wu-item"><div class="wu-dot" style="background:var(--cyan)"></div><div class="wu-name">Outdoor Walk</div><div class="wu-spec">15–20 min · 2,000–3,000 steps</div></div>
+        <div class="wu-item"><div class="wu-dot" style="background:var(--cyan)"></div><div class="wu-name">World's Greatest Stretch</div><div class="wu-spec">5 reps/side · full body mobility</div></div>
+        <div class="wu-item"><div class="wu-dot" style="background:var(--cyan)"></div><div class="wu-name">90/90 Hip Stretch</div><div class="wu-spec">60s each side</div></div>
+        <div class="wu-item"><div class="wu-dot" style="background:var(--cyan)"></div><div class="wu-name">Thoracic Rotation (Seated)</div><div class="wu-spec">10 reps/side · spine health</div></div>
+        <div class="wu-item"><div class="wu-dot" style="background:var(--cyan)"></div><div class="wu-name">Sunlight Exposure</div><div class="wu-spec">5–10 min outside · sets circadian rhythm · improves sleep quality tonight</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────
+     TUESDAY — CHEST + BACK
+───────────────────────────────────── -->
+<div class="day-panel" id="day-1">
+  <div class="day-hero">
+    <div class="day-eyebrow">Tuesday · Morning · Gym</div>
+    <div class="day-headline">CHEST <em>+</em> BACK</div>
+    <div class="day-chips">
+      <div class="dchip">Total Time <strong>~95 min</strong></div>
+      <div class="dchip">Warm-Up <strong>15 min</strong></div>
+      <div class="dchip">Lifting <strong>55 min</strong></div>
+      <div class="dchip">Zone 2 <strong>20 min</strong></div>
+      <div class="dchip">Stretch <strong>8 min</strong></div>
+    </div>
+  </div>
+
+  <div class="tl-bar">
+    <div class="tl-seg tls-warmup" style="flex:15">WARM-UP 15m</div>
+    <div class="tl-seg tls-main" style="flex:55">LIFTING 55m</div>
+    <div class="tl-seg tls-cardio" style="flex:20">ZONE 2 20m</div>
+    <div class="tl-seg tls-stretch" style="flex:8">STRETCH 8m</div>
+  </div>
+
+  <div class="focus-banner">
+    <strong>TODAY'S FOCUS:</strong> Vertical + horizontal pulling for lat width and back thickness. Upper chest for the full, aesthetic pec. <span class="kw">Build the V-taper.</span> Kickboxing last night kept your heart rate up — today is about loading muscle with precise technique.
+  </div>
+  <div class="rir-banner">
+    <span>⚡</span>
+    <div><strong>RIR Rule (every session):</strong> Leave 1–3 reps in reserve on all working sets. Only the <strong>last set</strong> of each exercise goes close to failure. Going to failure early kills your form and fatigue management during a cut.</div>
+  </div>
+
+  <div class="phases">
+
+    <!-- WARM-UP -->
+    <div class="phase open">
+      <div class="phase-hdr" onclick="togglePhase(this)">
+        <div class="ph-icon phi-warmup">🔥</div>
+        <div class="ph-meta">
+          <div class="ph-title">Warm-Up & Activation</div>
+          <div class="ph-sub">General cardiovascular + shoulder/chest activation · 15 min</div>
+        </div>
+        <div class="ph-time">0:00 – 0:15</div>
+        <div class="ph-chevron">▾</div>
+      </div>
+      <div class="phase-body">
+        <div class="wu-list">
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Rowing Machine — Easy Pace</div><div class="wu-spec">5 min · RPE 3/10</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Arm Circles (Forward + Backward)</div><div class="wu-spec">20 reps each way · shoulder joint prep</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Band Pull-Aparts</div><div class="wu-spec">2 × 15 reps · activates rear delts + rotator cuff</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Shoulder External Rotation (Band)</div><div class="wu-spec">2 × 12/side · infraspinatus + teres minor</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Thoracic Extension (Foam Roller)</div><div class="wu-spec">60s · opens chest for pressing</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Cat-Cow + World's Greatest Stretch</div><div class="wu-spec">5 reps each · full spine mobilization</div></div>
+        </div>
+        <div class="wu-sets-box">
+          <span>⚡</span>
+          <div><strong>Warm-Up Set Protocol:</strong> Pull-Ups — Set 1: 50% load × 10 reps, Set 2: 75% × 6 reps. Then begin working sets. Incline Press — Set 1: 50% × 10, Set 2: 75% × 5. Rest 60s between warm-up sets only.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN WORKOUT -->
+    <div class="phase open">
+      <div class="phase-hdr" onclick="togglePhase(this)">
+        <div class="ph-icon phi-main">💪</div>
+        <div class="ph-meta">
+          <div class="ph-title">Main Workout — Chest + Back</div>
+          <div class="ph-sub">6 exercises · ~55 min including rest periods</div>
+        </div>
+        <div class="ph-time">0:15 – 1:10</div>
+        <div class="ph-chevron">▾</div>
+      </div>
+      <div class="phase-body">
+        <div class="ex-table">
+          <div class="ex-thead">
+            <div class="exth">#</div>
+            <div class="exth">Exercise</div>
+            <div class="exth">Sets</div>
+            <div class="exth">Reps</div>
+            <div class="exth">Rest ⏱</div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">01</div>
+              <div class="ex-info">
+                <div class="ex-name">Pull Up (Assisted)</div>
+                <div class="ex-equip">Assisted Machine · Vertical Pull · Lats + Biceps</div>
+                <div class="ex-tags">
+                  <span class="etag etag-wu">+2 WARM-UP SETS</span>
+                  <button class="etag etag-swap" onclick="toggleExpand('t1-s1')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t1-t1')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">6</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">6–12 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(120)">2:00 min</button></div>
+            </div>
+            <div class="ex-expand" id="t1-s1">
+              <div class="expand-label el-swap">↔ Substitutions</div>
+              <div class="swap-chips">
+                <div class="swap-chip">Wide Grip Lat Pulldown</div>
+                <div class="swap-chip">Resistance Band Pull-Up</div>
+                <div class="swap-chip">Single-Arm Cable Pulldown</div>
+              </div>
+            </div>
+            <div class="ex-expand" id="t1-t1">
+              <div class="expand-label el-tip">💡 Coaching Tip</div>
+              <div class="tip-body">Start each rep from a <strong>dead hang</strong> — full shoulder extension at the bottom. This is where the lat gets its longest stretch and maximum growth stimulus. If you can't get a full hang, reduce assistance weight until you can. <em>Reduce assistance weight weekly as you get stronger</em> — that's your progressive overload.</div>
+            </div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">02</div>
+              <div class="ex-info">
+                <div class="ex-name">Incline Bench Press (Smith Machine)</div>
+                <div class="ex-equip">Smith Machine · Upper Chest + Front Delt</div>
+                <div class="ex-tags">
+                  <span class="etag etag-wu">+2 WARM-UP SETS</span>
+                  <button class="etag etag-swap" onclick="toggleExpand('t1-s2')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t1-t2')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">5</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">6–12 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(120)">2:00 min</button></div>
+            </div>
+            <div class="ex-expand" id="t1-s2">
+              <div class="expand-label el-swap">↔ Substitutions</div>
+              <div class="swap-chips">
+                <div class="swap-chip">Incline DB Press</div>
+                <div class="swap-chip">Incline Cable Press</div>
+                <div class="swap-chip">Low-to-High Cable Fly</div>
+              </div>
+            </div>
+            <div class="ex-expand" id="t1-t2">
+              <div class="expand-label el-tip">💡 Coaching Tip</div>
+              <div class="tip-body">Keep elbows at a <strong>45° angle</strong> to your torso — not flared wide. Full range of motion: bar touches upper chest at bottom, slight bend in elbows at top. <em>2–3 second eccentric (lowering) phase</em> is where most growth stimulus occurs.</div>
+            </div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">03</div>
+              <div class="ex-info">
+                <div class="ex-name">Seated Row (Machine)</div>
+                <div class="ex-equip">Machine · Horizontal Pull · Mid Back + Rhomboids</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t1-s3')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t1-t3')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">2</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">14 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(90)">1:30 min</button></div>
+            </div>
+            <div class="ex-expand" id="t1-s3">
+              <div class="expand-label el-swap">↔ Substitutions</div>
+              <div class="swap-chips">
+                <div class="swap-chip">Cable Seated Row</div>
+                <div class="swap-chip">Single-Arm DB Row</div>
+                <div class="swap-chip">Chest-Supported Row</div>
+              </div>
+            </div>
+            <div class="ex-expand" id="t1-t3">
+              <div class="expand-label el-tip">💡 Coaching Tip</div>
+              <div class="tip-body">Initiate every rep by <strong>retracting your scapula first</strong> — pull shoulder blades together before your arms move. Hold for 1 second at peak contraction. <em>You should feel it in your mid-back, not your biceps.</em></div>
+            </div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">04</div>
+              <div class="ex-info">
+                <div class="ex-name">Chest Press (Machine)</div>
+                <div class="ex-equip">Machine · Mid Chest · Horizontal Push</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t1-s4')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t1-t4')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">2</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">10–14 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(90)">1:30 min</button></div>
+            </div>
+            <div class="ex-expand" id="t1-s4">
+              <div class="expand-label el-swap">↔ Substitutions</div>
+              <div class="swap-chips">
+                <div class="swap-chip">DB Flat Bench Press</div>
+                <div class="swap-chip">Push-Up (weighted vest)</div>
+                <div class="swap-chip">Cable Chest Press</div>
+              </div>
+            </div>
+            <div class="ex-expand" id="t1-t4">
+              <div class="expand-label el-tip">💡 Coaching Tip</div>
+              <div class="tip-body">Don't fully lock out at the top — keep <strong>constant tension on the pecs</strong>. Control the negative (lowering phase) for 2–3 seconds. The machine allows you to focus on the muscle, not balance.</div>
+            </div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">05</div>
+              <div class="ex-info">
+                <div class="ex-name">Neutral Grip Lat Pulldown</div>
+                <div class="ex-equip">Cable Machine · Lats + Lower Trap · Vertical Pull</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t1-s5')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t1-t5')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">2</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">13–14 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(90)">1:30 min</button></div>
+            </div>
+            <div class="ex-expand" id="t1-s5">
+              <div class="expand-label el-swap">↔ Substitutions</div>
+              <div class="swap-chips">
+                <div class="swap-chip">Wide-Grip Pulldown</div>
+                <div class="swap-chip">Straight-Arm Pulldown</div>
+                <div class="swap-chip">Cable Pullover</div>
+              </div>
+            </div>
+            <div class="ex-expand" id="t1-t5">
+              <div class="expand-label el-tip">💡 Coaching Tip</div>
+              <div class="tip-body">Neutral grip keeps elbows closer to your body — this puts the <strong>lats in a stronger pulling position</strong>. Pull to upper chest, lean back slightly, and imagine pulling your elbows toward your hip pockets. <em>Depress your shoulder blades before you pull.</em></div>
+            </div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">06</div>
+              <div class="ex-info">
+                <div class="ex-name">Chest Fly (Machine / Pec Deck)</div>
+                <div class="ex-equip">Machine · Pec Isolation · Stretch Under Load</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t1-s6')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t1-t6')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">2</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">11–12 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(60)">1:00 min</button></div>
+            </div>
+            <div class="ex-expand" id="t1-s6">
+              <div class="expand-label el-swap">↔ Substitutions</div>
+              <div class="swap-chips">
+                <div class="swap-chip">Cable Fly (mid pulley)</div>
+                <div class="swap-chip">DB Fly</div>
+                <div class="swap-chip">Low-to-High Cable</div>
+              </div>
+            </div>
+            <div class="ex-expand" id="t1-t6">
+              <div class="expand-label el-tip">💡 Coaching Tip</div>
+              <div class="tip-body">The deep <strong>pec stretch at the bottom</strong> of each rep is the entire point of this exercise — that's where growth stimulus is highest. Slight bend in elbows throughout. Go light enough to feel the stretch, not heavy enough to lose it.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARDIO -->
+    <div class="phase open">
+      <div class="phase-hdr" onclick="togglePhase(this)">
+        <div class="ph-icon phi-cardio">🚶</div>
+        <div class="ph-meta">
+          <div class="ph-title">Zone 2 Cardio Finisher</div>
+          <div class="ph-sub">Incline Treadmill Walk · 20 min · Fat oxidation</div>
+        </div>
+        <div class="ph-time">1:10 – 1:30</div>
+        <div class="ph-chevron">▾</div>
+      </div>
+      <div class="phase-body">
+        <div class="cardio-wrap">
+          <div class="cardio-card">
+            <div class="cc-head">
+              <div class="cc-title">Incline Treadmill Walk</div>
+              <div class="cc-badge ccb-z2">ZONE 2</div>
+            </div>
+            <div class="cc-stats">
+              <div class="ccs"><div class="ccs-val">20</div><div class="ccs-lbl">Minutes</div></div>
+              <div class="ccs"><div class="ccs-val">8–10%</div><div class="ccs-lbl">Incline</div></div>
+              <div class="ccs"><div class="ccs-val">3.0–3.5</div><div class="ccs-lbl">Speed (mph)</div></div>
+            </div>
+            <div class="cc-desc">Brisk incline walk post-lifting. You should be breathing harder than resting but still able to speak in short sentences. Fat oxidation is highest here. This is your aerobic base — the engine that makes everything else work.</div>
+            <div class="hr-zone"><div class="hz-dot"></div>Target HR: 60–70% max · approx 120–140 BPM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COOL-DOWN -->
+    <div class="phase open">
+      <div class="phase-hdr" onclick="togglePhase(this)">
+        <div class="ph-icon phi-stretch">🧘</div>
+        <div class="ph-meta">
+          <div class="ph-title">Cool-Down & Stretch</div>
+          <div class="ph-sub">Chest, back + shoulder targeted · 8 min</div>
+        </div>
+        <div class="ph-time">1:30 – 1:38</div>
+        <div class="ph-chevron">▾</div>
+      </div>
+      <div class="phase-body">
+        <div class="stretch-grid">
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Doorway Chest Stretch</div><div class="si-hold">60s both arms</div><div class="si-tip">Arms at 90°, lean into stretch. Deep anterior shoulder + pec lengthening.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Dead Hang (Bar)</div><div class="si-hold">2 × 30s</div><div class="si-tip">Hang fully relaxed. Decompresses spine and opens the entire lat.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Cross-Body Rear Delt Stretch</div><div class="si-hold">30s each arm</div><div class="si-tip">Pull arm across chest. Posterior delt + rotator cuff.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Thoracic Rotation (Seated)</div><div class="si-hold">10 reps each side</div><div class="si-tip">Sit tall, hands behind head, rotate slowly. Spine health + mobility.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Overhead Lat + Tricep Stretch</div><div class="si-hold">30s each arm</div><div class="si-tip">Arm overhead, pull elbow with opposite hand. Lat + long head tricep.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Child's Pose</div><div class="si-hold">60s · breathe deeply</div><div class="si-tip">Arms extended. Full back decompression. Let every muscle release.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────
+     WEDNESDAY — KICKBOXING
+───────────────────────────────────── -->
+<div class="day-panel" id="day-2">
+  <div class="day-hero">
+    <div class="day-eyebrow">Wednesday · Evening</div>
+    <div class="day-headline cyan">KICKBOX<em>ING</em></div>
+    <div class="day-chips">
+      <div class="dchip">Evening Class <strong>~60–75 min</strong></div>
+      <div class="dchip">Tomorrow <strong>Glutes + Hamstrings</strong></div>
+      <div class="dchip">Morning <strong>Zone 2 Walk (Optional)</strong></div>
+    </div>
+  </div>
+  <div class="tl-bar">
+    <div class="tl-seg tls-mob" style="flex:1">MORNING</div>
+    <div class="tl-seg tls-kb" style="flex:3">KICKBOXING EVENING 60–75m</div>
+  </div>
+  <div class="focus-banner" style="border-left-color:var(--cyan)">
+    <strong style="color:var(--cyan)">MIDWEEK MOMENTUM:</strong> This is session two. By now your technique is sharper than Monday. <span class="kw">Focus on precision today — sharper combinations, better footwork.</span> You trained chest and back yesterday. Your upper body may be slightly fatigued — kickboxing is mostly legs and cardio. You're fine.
+  </div>
+  <div class="kb-hero">
+    <div class="kb-icon">🥊</div>
+    <div class="kb-title">STAY SHARP</div>
+    <div class="kb-sub">Midweek kickboxing is where consistency gets built. Anyone can show up on day one. Showing up Wednesday when you're a bit tired is what separates results from intentions.</div>
+    <div class="kb-grid">
+      <div class="kb-card"><div class="kb-card-icon">📈</div><div class="kb-card-ttl">Track Improvement</div><div class="kb-card-body">Notice what felt sharper than Monday. Coordination, stamina, and reaction time all improve session by session if you're paying attention.</div></div>
+      <div class="kb-card"><div class="kb-card-icon">🍽️</div><div class="kb-card-ttl">Pre-Session Meal</div><div class="kb-card-body">Complex carbs + protein 90–120 min before. Dal + rice, roti + paneer, or a soy shake + banana. Don't train on empty.</div></div>
+      <div class="kb-card"><div class="kb-card-icon">🧘</div><div class="kb-card-ttl">Optional Morning</div><div class="kb-card-body">30–40 min brisk walk in morning if energy allows. Adds Zone 2 stimulus and step count. Skip if sleep was poor — rest wins.</div></div>
+      <div class="kb-card"><div class="kb-card-icon">❄️</div><div class="kb-card-ttl">Recovery Focus</div><div class="kb-card-body">Tomorrow is glutes and hamstrings. Stretch your hips and hip flexors after kickboxing tonight — couch stretch, pigeon pose, 2 min each side.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────
+     THURSDAY — GLUTES + HAMSTRINGS
+───────────────────────────────────── -->
+<div class="day-panel" id="day-3">
+  <div class="day-hero">
+    <div class="day-eyebrow">Thursday · Morning · Gym</div>
+    <div class="day-headline">GLUTES <em>+</em> HAMSTRINGS</div>
+    <div class="day-chips">
+      <div class="dchip">Total Time <strong>~100 min</strong></div>
+      <div class="dchip">Warm-Up <strong>15 min</strong></div>
+      <div class="dchip">Lifting <strong>65 min</strong></div>
+      <div class="dchip">Zone 2 <strong>15 min</strong></div>
+      <div class="dchip">Stretch <strong>10 min</strong></div>
+    </div>
+  </div>
+
+  <div class="tl-bar">
+    <div class="tl-seg tls-warmup" style="flex:15">WARM-UP 15m</div>
+    <div class="tl-seg tls-main" style="flex:65">LIFTING 65m</div>
+    <div class="tl-seg tls-cardio" style="flex:15">ZONE 2 15m</div>
+    <div class="tl-seg tls-stretch" style="flex:10">STRETCH 10m</div>
+  </div>
+
+  <div class="focus-banner">
+    <strong>TODAY'S FOCUS:</strong> Posterior chain — glutes, hamstrings, calves. <span class="kw">What people see from behind. Your foundation.</span> Strong glutes protect your lower back and knees. Don't rush RDLs — feel the hamstring stretch, not the lower back. RDL volume is intentionally moderate given your sensitivity to soreness.
+  </div>
+  <div class="rir-banner"><span>⚡</span><div><strong>RIR Rule:</strong> Leave 1–3 reps in reserve on all working sets. Last set only goes close to failure. <strong>RDL specifically: stop the moment you feel lower back rounding.</strong> That's your absolute limit each set.</div></div>
+
+  <div class="phases">
+    <div class="phase open">
+      <div class="phase-hdr" onclick="togglePhase(this)">
+        <div class="ph-icon phi-warmup">🔥</div>
+        <div class="ph-meta"><div class="ph-title">Warm-Up & Glute Activation</div><div class="ph-sub">Hip hinge prep + glute firing · 15 min</div></div>
+        <div class="ph-time">0:00 – 0:15</div>
+        <div class="ph-chevron">▾</div>
+      </div>
+      <div class="phase-body">
+        <div class="wu-list">
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Rowing Machine — Easy Pace</div><div class="wu-spec">5 min · RPE 3/10 · hip hinge movement pattern</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Glute Bridge (Bodyweight)</div><div class="wu-spec">3 × 15 reps · 1s squeeze at top each rep</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Clamshell (Band or Bodyweight)</div><div class="wu-spec">2 × 20/side · gluteus medius activation</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Good Morning (Bodyweight)</div><div class="wu-spec">2 × 12 · hip hinge rehearsal for RDL</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Leg Curl — Light Weight</div><div class="wu-spec">1 × 15 at 30% · hamstring flush</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Kneeling Hip Flexor Stretch</div><div class="wu-spec">30s each side · ensures full hip extension in thrusts</div></div>
+        </div>
+        <div class="wu-sets-box">
+          <span>⚡</span>
+          <div><strong>Warm-Up Sets:</strong> Hip Thrust — Set 1: 50% × 12, Set 2: 75% × 8, then working sets. Romanian Deadlift — Set 1 (1 warm-up set): 50% × 10. Begin working sets.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase open">
+      <div class="phase-hdr" onclick="togglePhase(this)">
+        <div class="ph-icon phi-main">💪</div>
+        <div class="ph-meta"><div class="ph-title">Main Workout — Glutes + Hamstrings</div><div class="ph-sub">7 exercises · ~65 min</div></div>
+        <div class="ph-time">0:15 – 1:20</div>
+        <div class="ph-chevron">▾</div>
+      </div>
+      <div class="phase-body">
+        <div class="inner-note accent-note"><span>⚠️</span><div><strong>Soreness Note:</strong> If hamstrings and calves are still sore from last session, reduce RDL to 2 sets and calf raises to 2 sets this week. Add back the third set only when soreness between sessions has subsided to normal. Adapt gradually.</div></div>
+        <div class="ex-table">
+          <div class="ex-thead">
+            <div class="exth">#</div><div class="exth">Exercise</div><div class="exth">Sets</div><div class="exth">Reps</div><div class="exth">Rest ⏱</div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">01</div>
+              <div class="ex-info">
+                <div class="ex-name">Hip Thrust (Machine)</div>
+                <div class="ex-equip">Machine · Glutes · Primary Mass Builder</div>
+                <div class="ex-tags">
+                  <span class="etag etag-wu">+2 WARM-UP SETS</span>
+                  <button class="etag etag-swap" onclick="toggleExpand('t3-s1')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t3-t1')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">5</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">7–14 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(120)">2:00 min</button></div>
+            </div>
+            <div class="ex-expand" id="t3-s1"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">Barbell Hip Thrust</div><div class="swap-chip">Single-Leg Hip Thrust</div><div class="swap-chip">Cable Glute Kickback</div></div></div>
+            <div class="ex-expand" id="t3-t1"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">Drive through <strong>heels</strong>, not toes. At the top, squeeze glutes maximally and hold for <strong>1 full second</strong>. If you're not feeling it in your glutes, your feet are too close — push them slightly further out. The pause is everything.</div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">02</div>
+              <div class="ex-info">
+                <div class="ex-name">Romanian Deadlift (Barbell)</div>
+                <div class="ex-equip">Barbell · Hamstring + Glute · Hip Hinge</div>
+                <div class="ex-tags">
+                  <span class="etag etag-wu">+1 WARM-UP SET</span>
+                  <button class="etag etag-swap" onclick="toggleExpand('t3-s2')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t3-t2')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">3</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">10–12 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(150)">2:30 min</button></div>
+            </div>
+            <div class="ex-expand" id="t3-s2"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">Single-Leg RDL (DB)</div><div class="swap-chip">Cable Pull-Through</div><div class="swap-chip">Good Mornings (BB)</div></div></div>
+            <div class="ex-expand" id="t3-t2"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">You should feel this in your <strong>hamstrings — not your lower back</strong>. If your back rounds or you feel it lumbar, you've gone too low. Hinge at the hips, slight knee bend, bar close to body. <em>Stop the rep when hamstrings are taut — not when back rounds.</em></div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">03</div>
+              <div class="ex-info">
+                <div class="ex-name">Standing Calf Raise (Machine)</div>
+                <div class="ex-equip">Machine · Gastrocnemius · Calf Mass</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t3-s3')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t3-t3')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">3</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">7–10 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(60)">1:00 min</button></div>
+            </div>
+            <div class="ex-expand" id="t3-s3"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">Seated Calf Raise</div><div class="swap-chip">Leg Press Calf Raise</div><div class="swap-chip">Donkey Calf Raise</div></div></div>
+            <div class="ex-expand" id="t3-t3"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body"><strong>Full ROM is mandatory</strong> — deep slow stretch at the very bottom (heels below platform level), pause 1 second, then full contraction at top. Bouncing through the bottom is a wasted rep. If calves are still sore, <em>drop to 2 sets this week.</em></div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">04</div>
+              <div class="ex-info">
+                <div class="ex-name">Lying Leg Curl (Machine)</div>
+                <div class="ex-equip">Machine · Hamstring Isolation · Bicep Femoris</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t3-s4')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t3-t4')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">3</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">7–8 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(90)">1:30 min</button></div>
+            </div>
+            <div class="ex-expand" id="t3-s4"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">Seated Leg Curl</div><div class="swap-chip">Nordic Hamstring Curl</div><div class="swap-chip">Ball Hamstring Curl</div></div></div>
+            <div class="ex-expand" id="t3-t4"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">Point toes slightly for greater <strong>bicep femoris activation</strong>. Full ROM — let the legs extend fully before curling. Slow the eccentric (lowering) phase to 2–3 seconds. <em>Don't let your hips rise — that's your back taking over.</em></div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">05</div>
+              <div class="ex-info">
+                <div class="ex-name">Knee Raise (Parallel Bars)</div>
+                <div class="ex-equip">Parallel Bars · Lower Abs + Hip Flexors · Core</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t3-s5')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t3-t5')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">3</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">15 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(60)">1:00 min</button></div>
+            </div>
+            <div class="ex-expand" id="t3-s5"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">Hanging Leg Raise</div><div class="swap-chip">Decline Sit-Up</div><div class="swap-chip">Ab Wheel Rollout</div></div></div>
+            <div class="ex-expand" id="t3-t5"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">Slow the descent — <strong>don't let legs drop</strong>. Controlled lowering is where the abs work hardest. No swinging — if you're swinging, reduce reps and slow down. Posterior pelvic tilt at the top to hit lower abs.</div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">06</div>
+              <div class="ex-info">
+                <div class="ex-name">Back Extension (Weighted Hyperextension)</div>
+                <div class="ex-equip">GHD / 45° Bench · Lower Back + Glutes · Prehab</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t3-s6')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t3-t6')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">2</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">10 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(90)">1:30 min</button></div>
+            </div>
+            <div class="ex-expand" id="t3-s6"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">Good Morning (BB, light)</div><div class="swap-chip">Superman Hold (bodyweight)</div><div class="swap-chip">Reverse Hyperextension</div></div></div>
+            <div class="ex-expand" id="t3-t6"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">For <strong>glute focus</strong>: keep spine neutral, squeeze hard at the top. For <strong>hamstring focus</strong>: slight knee bend. For <strong>lower back prehab</strong>: slow controlled extension. Don't hyperextend — stop when hips are in line with torso. This exercise is spinal erector insurance — do it properly.</div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">07</div>
+              <div class="ex-info">
+                <div class="ex-name">Farmer's Walk</div>
+                <div class="ex-equip">Heavy Dumbbells / Trap Bar · Full Body · Functional</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t3-s7')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t3-t7')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">3</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">30–40m walk</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(90)">1:30 min</button></div>
+            </div>
+            <div class="ex-expand" id="t3-s7"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">Suitcase Carry (1 hand)</div><div class="swap-chip">Trap Bar Carry</div><div class="swap-chip">Plate Pinch Walk</div></div></div>
+            <div class="ex-expand" id="t3-t7"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">Shoulders back and <strong>down — not shrugged</strong>. Core braced. Walk tall with small, controlled steps. Go heavy enough that it's a real challenge by the 30m mark. This trains grip, core, posture, and cardiovascular system simultaneously — one of the most functional exercises in existence.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase open">
+      <div class="phase-hdr" onclick="togglePhase(this)">
+        <div class="ph-icon phi-cardio">🚣</div>
+        <div class="ph-meta"><div class="ph-title">Zone 2 Cardio Finisher</div><div class="ph-sub">Rowing Machine · Low Impact · 15 min</div></div>
+        <div class="ph-time">1:20 – 1:35</div>
+        <div class="ph-chevron">▾</div>
+      </div>
+      <div class="phase-body">
+        <div class="cardio-wrap">
+          <div class="cardio-card">
+            <div class="cc-head"><div class="cc-title">Rowing Machine — Easy Flush</div><div class="cc-badge ccb-z2">ZONE 2</div></div>
+            <div class="cc-stats">
+              <div class="ccs"><div class="ccs-val">15</div><div class="ccs-lbl">Minutes</div></div>
+              <div class="ccs"><div class="ccs-val">Easy</div><div class="ccs-lbl">Intensity</div></div>
+              <div class="ccs"><div class="ccs-val">18–22</div><div class="ccs-lbl">Strokes/Min</div></div>
+            </div>
+            <div class="cc-desc">Rowing post-posterior-chain is ideal — it uses the same hip hinge pattern at very low load, flushing blood through glutes and hamstrings without adding fatigue. Keep effort easy. Drive with legs, swing back, then pull arms. Great for recovery and aerobic stimulus simultaneously.</div>
+            <div class="hr-zone"><div class="hz-dot"></div>HR: 110–130 BPM · Nasal breathing comfortable</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase open">
+      <div class="phase-hdr" onclick="togglePhase(this)">
+        <div class="ph-icon phi-stretch">🧘</div>
+        <div class="ph-meta"><div class="ph-title">Cool-Down & Stretch</div><div class="ph-sub">Glute, hamstring + lower back · 10 min</div></div>
+        <div class="ph-time">1:35 – 1:45</div>
+        <div class="ph-chevron">▾</div>
+      </div>
+      <div class="phase-body">
+        <div class="stretch-grid">
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Standing Hamstring Stretch</div><div class="si-hold">60s · soft knees</div><div class="si-tip">Hinge at hip, reach toward toes. Don't force — breathe into it.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Lying Figure-4 Glute Stretch</div><div class="si-hold">60s each side</div><div class="si-tip">On back, cross ankle over knee, pull both legs toward chest.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Pigeon Pose</div><div class="si-hold">90s each side</div><div class="si-tip">Deepest hip opener available. Breathe deeply — don't fight it.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Kneeling Hip Flexor Stretch</div><div class="si-hold">60s each side</div><div class="si-tip">Hips forward, tall posture. Critical after hip thrusts — restores full hip extension.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Seated Calf Stretch (Towel)</div><div class="si-hold">45s each foot</div><div class="si-tip">Loop towel around foot, pull toes toward you. Full gastrocnemius stretch.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Supine Spinal Twist</div><div class="si-hold">45s each side</div><div class="si-tip">Lying down, knee drops across body. Lower back decompression after deadlifts.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────
+     FRIDAY — FULL REST
+───────────────────────────────────── -->
+<div class="day-panel" id="day-4">
+  <div class="day-hero">
+    <div class="day-eyebrow">Friday · Full Day</div>
+    <div class="day-headline rest">FULL <em>REST</em></div>
+  </div>
+
+  <div class="rest-container">
+    <div class="rest-emoji">💤</div>
+    <div class="rest-ttl">RECOVER & GROW</div>
+    <div class="rest-desc">Muscle is not built during training. It's built during rest. Protein synthesis peaks 24–72 hours post-workout. Today is not a wasted day — it is when the adaptations you're working toward actually happen.</div>
+    <div class="rest-pillars">
+      <div class="rp"><div class="rp-icon">😴</div><div class="rp-ttl">Sleep 7–9 Hours</div><div class="rp-body">Your single highest-leverage recovery tool. Growth hormone peaks during deep sleep. Nothing replaces this.</div></div>
+      <div class="rp"><div class="rp-icon">🥛</div><div class="rp-ttl">Hit Protein</div><div class="rp-body">125–140g even on rest days. Muscle repair doesn't pause. Paneer, tofu, soy protein, lentils, Greek yogurt.</div></div>
+      <div class="rp"><div class="rp-icon">💧</div><div class="rp-ttl">Hydrate</div><div class="rp-body">3–4 litres. Connective tissue, tendons and joints require hydration to repair properly overnight.</div></div>
+      <div class="rp"><div class="rp-icon">🚶</div><div class="rp-ttl">Light Walk OK</div><div class="rp-body">10,000 steps walking is fine and encouraged. Not a workout — daily human movement.</div></div>
+      <div class="rp"><div class="rp-icon">🧠</div><div class="rp-ttl">Manage Stress</div><div class="rp-body">Chronic cortisol kills muscle and drives fat storage. Protect this day. Read, rest, do nothing.</div></div>
+      <div class="rp"><div class="rp-icon">🌅</div><div class="rp-ttl">Morning Sunlight</div><div class="rp-body">10 min outside within 30 min of waking. Sets circadian rhythm, improves sleep quality tonight.</div></div>
+    </div>
+
+    <div class="deload-box">
+      <div class="deload-ttl">⚠️ Deload Reminder</div>
+      <div class="deload-body">Every <strong>4–6 weeks</strong>, take a full deload week. Reduce all working sets by <strong>40–50%</strong> while keeping the same weight. This is critical on a calorie deficit when recovery is already reduced. Signs you need a deload early: <strong>persistent joint soreness, strength dropping over 2+ sessions, loss of motivation, poor sleep despite rest.</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────
+     SATURDAY — SHOULDERS + ARMS
+───────────────────────────────────── -->
+<div class="day-panel" id="day-5">
+  <div class="day-hero">
+    <div class="day-eyebrow">Saturday · Morning · Gym</div>
+    <div class="day-headline">SHOULDERS <em>+</em> ARMS</div>
+    <div class="day-chips">
+      <div class="dchip">Total Time <strong>~105 min</strong></div>
+      <div class="dchip">Warm-Up <strong>15 min</strong></div>
+      <div class="dchip">Lifting <strong>70 min</strong></div>
+      <div class="dchip">Stretch <strong>10 min</strong></div>
+    </div>
+  </div>
+
+  <div class="tl-bar">
+    <div class="tl-seg tls-warmup" style="flex:15">WARM-UP 15m</div>
+    <div class="tl-seg tls-main" style="flex:70">LIFTING 70m</div>
+    <div class="tl-seg tls-stretch" style="flex:10">STRETCH 10m</div>
+  </div>
+
+  <div class="focus-banner">
+    <strong>TODAY'S FOCUS:</strong> Shoulders are the #1 muscle for the aesthetic V-taper silhouette. <span class="kw">Broad shoulders = the physique.</span> Your face pulls and Y-raises (now lateral raises) are non-negotiable every week — they protect your shoulder joint and build the width that makes the waist look smaller. Quality over weight every single set.
+  </div>
+  <div class="rir-banner"><span>⚡</span><div><strong>RIR Rule:</strong> Leave 1–3 reps in reserve. Last set only goes close to failure. <strong>Shoulder press specifically: don't ego lift.</strong> Shoulder injuries can sideline you for months — not worth it.</div></div>
+
+  <div class="phases">
+    <div class="phase open">
+      <div class="phase-hdr" onclick="togglePhase(this)">
+        <div class="ph-icon phi-warmup">🔥</div>
+        <div class="ph-meta"><div class="ph-title">Warm-Up & Rotator Cuff Activation</div><div class="ph-sub">Shoulder health prep · 15 min</div></div>
+        <div class="ph-time">0:00 – 0:15</div>
+        <div class="ph-chevron">▾</div>
+      </div>
+      <div class="phase-body">
+        <div class="wu-list">
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Rowing Machine or Bike</div><div class="wu-spec">5 min · RPE 3/10 · elevates core temp</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Band Pull-Aparts</div><div class="wu-spec">3 × 15 · rear delt + rotator cuff activation</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Shoulder External Rotation (Band)</div><div class="wu-spec">2 × 15/side · infraspinatus activation</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Face Pull — Very Light</div><div class="wu-spec">2 × 15 · sets scapular position for pressing</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Arm Circles + Shoulder CARs</div><div class="wu-spec">5 slow circles each direction/side · full joint range</div></div>
+        </div>
+        <div class="wu-sets-box">
+          <span>⚡</span>
+          <div><strong>Warm-Up Sets — Shoulder Press (7 total sets = 3 WU + 4 working):</strong> WU Set 1: 40% × 15, WU Set 2: 60% × 10, WU Set 3: 75% × 6. Then 4 working sets. <br><strong>Lateral Raise Machine (5 total = 2 WU + 3 working):</strong> WU Set 1: 50% × 15, WU Set 2: 70% × 10. Then 3 working sets.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase open">
+      <div class="phase-hdr" onclick="togglePhase(this)">
+        <div class="ph-icon phi-main">💪</div>
+        <div class="ph-meta"><div class="ph-title">Main Workout — Shoulders + Arms</div><div class="ph-sub">9 exercises + core · ~70 min</div></div>
+        <div class="ph-time">0:15 – 1:25</div>
+        <div class="ph-chevron">▾</div>
+      </div>
+      <div class="phase-body">
+        <div class="ex-table">
+          <div class="ex-thead">
+            <div class="exth">#</div><div class="exth">Exercise</div><div class="exth">Sets</div><div class="exth">Reps</div><div class="exth">Rest ⏱</div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">01</div>
+              <div class="ex-info">
+                <div class="ex-name">Seated Shoulder Press (Machine)</div>
+                <div class="ex-equip">Machine · All Delt Heads · Primary Mass Builder</div>
+                <div class="ex-tags">
+                  <span class="etag etag-wu">3 WU + 4 WORKING = 7 TOTAL</span>
+                  <button class="etag etag-swap" onclick="toggleExpand('t5-s1')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t5-t1')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">4</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">6–10 reps<br><span style="font-size:10px;color:var(--muted)">4–15 w/ WU sets</span></div>
+              <div><button class="ex-rest-btn" onclick="startTimer(120)">2:00 min</button></div>
+            </div>
+            <div class="ex-expand" id="t5-s1"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">DB Shoulder Press</div><div class="swap-chip">Arnold Press</div><div class="swap-chip">Cable Overhead Press</div></div></div>
+            <div class="ex-expand" id="t5-t1"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">Don't lock out at the top — <strong>constant tension on the deltoids</strong>. Keep elbows tracking slightly forward of your ears. Don't let the seat back take over — sit tall, engage your core throughout the set. <em>If you're feeling it in your traps more than delts, the seat is too low.</em></div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">02</div>
+              <div class="ex-info">
+                <div class="ex-name">Lateral Raise (Machine)</div>
+                <div class="ex-equip">Machine · Medial Delt · Shoulder Width</div>
+                <div class="ex-tags">
+                  <span class="etag etag-wu">2 WU + 3 WORKING = 5 TOTAL</span>
+                  <button class="etag etag-swap" onclick="toggleExpand('t5-s2')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t5-t2')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">3</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">12–15 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(60)">1:00 min</button></div>
+            </div>
+            <div class="ex-expand" id="t5-s2"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">DB Lateral Raise</div><div class="swap-chip">Cable Lateral Raise (unilateral)</div><div class="swap-chip">Y-Raise (DB, incline bench)</div></div></div>
+            <div class="ex-expand" id="t5-t2"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">Lead with your <strong>elbows, not your hands</strong>. Slight forward lean builds more medial delt. Don't shrug — keep traps packed down. The machine gives constant tension throughout the ROM, making it superior to DB raises for isolation. <em>You don't need to go heavy — the muscle doesn't know the weight, only the tension.</em></div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">03</div>
+              <div class="ex-info">
+                <div class="ex-name">Face Pull (Cable)</div>
+                <div class="ex-equip">Cable · Rear Delt + External Rotation · Joint Health</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t5-s3')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t5-t3')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">4</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">15–20 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(60)">1:00 min</button></div>
+            </div>
+            <div class="ex-expand" id="t5-s3"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">Band Face Pull</div><div class="swap-chip">Rear Delt Fly Machine</div><div class="swap-chip">Seated Reverse Pec Deck</div></div></div>
+            <div class="ex-expand" id="t5-t3"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">Pull to <strong>forehead level</strong>, elbows HIGH, and <strong>externally rotate your hands outward</strong> at the peak of every rep. This external rotation is the entire therapeutic value of the exercise — it counteracts the internal rotation caused by all your pressing. <em>Go light. This is not an ego exercise.</em></div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">04</div>
+              <div class="ex-info">
+                <div class="ex-name">Seated Incline Curl (Dumbbell)</div>
+                <div class="ex-equip">Incline Bench · Bicep Long Head · Stretch Under Load</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t5-s4')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t5-t4')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">4</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">6–10 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(90)">1:30 min</button></div>
+            </div>
+            <div class="ex-expand" id="t5-s4"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">Preacher Curl</div><div class="swap-chip">Low-Pulley Cable Curl</div><div class="swap-chip">DB Concentration Curl</div></div></div>
+            <div class="ex-expand" id="t5-t4"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">Your arms <strong>hang behind your body</strong> on the incline — this stretches the long head of the bicep fully before the curl begins. This position is the entire reason this exercise exists. Don't cheat the rep up — slow, controlled curl. <em>The stretch at the bottom is the stimulus. Don't cut it short.</em></div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">05</div>
+              <div class="ex-info">
+                <div class="ex-name">Hammer Curl (Dumbbell)</div>
+                <div class="ex-equip">Dumbbell · Brachialis + Brachioradialis · Arm Thickness</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t5-s5')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t5-t5')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">2</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">10–12 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(60)">1:00 min</button></div>
+            </div>
+            <div class="ex-expand" id="t5-s5"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">Rope Hammer Curl (cable)</div><div class="swap-chip">Cross-Body Hammer Curl</div><div class="swap-chip">Reverse Curl (BB)</div></div></div>
+            <div class="ex-expand" id="t5-t5"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">Neutral grip throughout — don't let the wrist rotate. <strong>No swinging</strong> — if you're swinging, the weight is too heavy. Slow and controlled. The brachialis sits under the bicep and when developed, it pushes the bicep up, making your arms look bigger even from the side.</div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">06</div>
+              <div class="ex-info">
+                <div class="ex-name">Behind-the-Back Wrist Curl (Barbell)</div>
+                <div class="ex-equip">Barbell · Forearm Flexors + Grip Strength</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t5-s6')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t5-t6')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">2</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">15–20 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(60)">1:00 min</button></div>
+            </div>
+            <div class="ex-expand" id="t5-s6"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">Wrist Roller</div><div class="swap-chip">Plate Pinch Carry</div><div class="swap-chip">DB Wrist Curl (seated)</div></div></div>
+            <div class="ex-expand" id="t5-t6"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">This is primarily a <strong>forearm flexor + grip exercise</strong>, not a true bicep movement. Keep reps high (15–20). Good grip strength transfers to every pulling exercise and is strongly correlated with longevity outcomes. Keep it as a finisher and don't go heavy.</div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">07</div>
+              <div class="ex-info">
+                <div class="ex-name">Triceps Pushdown (Cable)</div>
+                <div class="ex-equip">Cable · Lateral Head · Tricep Isolation</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t5-s7')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t5-t7')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">3</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">12–16 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(60)">1:00 min</button></div>
+            </div>
+            <div class="ex-expand" id="t5-s7"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">Rope Pushdown</div><div class="swap-chip">Band Pushdown</div><div class="swap-chip">Single-Arm Cable Pushdown</div></div></div>
+            <div class="ex-expand" id="t5-t7"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">Elbows <strong>fixed at sides</strong> throughout — don't let them drift forward. Full extension at the bottom, slow return. Rope attachment allows hands to separate at the bottom for a greater lateral head stretch. <em>Constant tension beats heavy and sloppy every time.</em></div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">08</div>
+              <div class="ex-info">
+                <div class="ex-name">Skullcrusher (Barbell)</div>
+                <div class="ex-equip">Barbell · Tricep Long Head · Mass Builder</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t5-s8')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t5-t8')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">2</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">8–11 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(90)">1:30 min</button></div>
+            </div>
+            <div class="ex-expand" id="t5-s8"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">DB Skullcrusher</div><div class="swap-chip">Overhead Cable Tricep Extension</div><div class="swap-chip">EZ-Bar Extension</div></div></div>
+            <div class="ex-expand" id="t5-t8"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">Lower the bar <strong>past your head</strong> (to forehead or slightly behind) — this puts the long head in a fully stretched position. The long head is the largest tricep head and the most neglected. <em>Don't go heavy enough to lose control — this is a loaded bar near your face.</em></div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">09</div>
+              <div class="ex-info">
+                <div class="ex-name">Dead Bug</div>
+                <div class="ex-equip">Bodyweight · Anti-Extension Core · Spine Stability</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t5-s9')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t5-t9')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">3</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">10/side</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(60)">1:00 min</button></div>
+            </div>
+            <div class="ex-expand" id="t5-s9"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">Plank (30–45s)</div><div class="swap-chip">Bird Dog</div><div class="swap-chip">Hollow Body Hold</div></div></div>
+            <div class="ex-expand" id="t5-t9"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body"><strong>Lower back pressed firmly into the floor</strong> the entire time. Brace your core before moving. Extend opposite arm and leg slowly, return without touching the floor. If your back lifts off, reduce range of motion. <em>This is a quality exercise — slow is hard, slow is right.</em></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase open">
+      <div class="phase-hdr" onclick="togglePhase(this)">
+        <div class="ph-icon phi-stretch">🧘</div>
+        <div class="ph-meta"><div class="ph-title">Cool-Down & Stretch</div><div class="ph-sub">Shoulder, bicep, tricep + chest · 10 min</div></div>
+        <div class="ph-time">1:25 – 1:35</div>
+        <div class="ph-chevron">▾</div>
+      </div>
+      <div class="phase-body">
+        <div class="stretch-grid">
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Doorway Chest Stretch</div><div class="si-hold">60s · both arms</div><div class="si-tip">Arms at 90°, lean forward into stretch. Anterior shoulder + pec.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Overhead Tricep Stretch</div><div class="si-hold">45s each arm</div><div class="si-tip">Elbow behind head, gentle pull. Long head tricep + lat.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Bicep Wall Stretch</div><div class="si-hold">30s each arm</div><div class="si-tip">Palm on wall facing out, turn body away. Bicep + anterior shoulder.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Cross-Body Rear Delt Stretch</div><div class="si-hold">30s each arm</div><div class="si-tip">Pull arm across chest. Posterior delt — often neglected in stretching.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Shoulder External Rotation Stretch</div><div class="si-hold">30s each side</div><div class="si-tip">Arm at 90° on wall, rotate torso away. Front shoulder capsule.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Child's Pose + Lateral Reach</div><div class="si-hold">45s each side</div><div class="si-tip">Reach arm to one side. Lat + shoulder simultaneous stretch.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────
+     SUNDAY — QUADS + CALVES
+───────────────────────────────────── -->
+<div class="day-panel" id="day-6">
+  <div class="day-hero">
+    <div class="day-eyebrow">Sunday · Morning · Gym</div>
+    <div class="day-headline">QUADS <em>+</em> CALVES</div>
+    <div class="day-chips">
+      <div class="dchip">Total Time <strong>~95 min</strong></div>
+      <div class="dchip">Warm-Up <strong>15 min</strong></div>
+      <div class="dchip">Lifting <strong>55 min</strong></div>
+      <div class="dchip">Zone 2 <strong>15 min</strong></div>
+      <div class="dchip">Stretch <strong>10 min</strong></div>
+    </div>
+  </div>
+
+  <div class="tl-bar">
+    <div class="tl-seg tls-warmup" style="flex:15">WARM-UP 15m</div>
+    <div class="tl-seg tls-main" style="flex:55">LIFTING 55m</div>
+    <div class="tl-seg tls-cardio" style="flex:15">ZONE 2 15m</div>
+    <div class="tl-seg tls-stretch" style="flex:10">STRETCH 10m</div>
+  </div>
+
+  <div class="focus-banner">
+    <strong>TODAY'S FOCUS:</strong> Quad-dominant leg day. <span class="kw">Leg day separates the committed from the casual.</span> Bulgarian split squats are your most important exercise — they build unilateral strength, fix imbalances, and protect your knees long-term. Core work is before the main workout when you're fresh.
+  </div>
+  <div class="rir-banner"><span>⚡</span><div><strong>RIR Rule:</strong> Leave 1–3 reps in reserve. <strong>Hack squat specifically:</strong> don't ego load — your knees are under compressive force. Form first, always.</div></div>
+
+  <div class="phases">
+    <div class="phase open">
+      <div class="phase-hdr" onclick="togglePhase(this)">
+        <div class="ph-icon phi-warmup">🔥</div>
+        <div class="ph-meta"><div class="ph-title">Core Activation + Warm-Up</div><div class="ph-sub">Core first while fresh · then quad activation · 15 min</div></div>
+        <div class="ph-time">0:00 – 0:15</div>
+        <div class="ph-chevron">▾</div>
+      </div>
+      <div class="phase-body">
+        <div class="inner-note cyan-note"><span>💡</span><div><strong>Core First:</strong> Ab Wheel and Pallof Press are done HERE, at the start, before you're fatigued from squats. This gives you better quality core work and also warms up your spine for heavy leg movements.</div></div>
+        <div class="wu-list">
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Stair Machine (Steps)</div><div class="wu-spec">5 min · easy pace · warms knees + hips</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Ab Wheel Rollout</div><div class="wu-spec">3 × 8–10 reps · brace hard, hips don't sag</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Cable Core Pallof Press</div><div class="wu-spec">3 × 12/side · anti-rotation · stand tall, resist turning</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Leg Swings (Forward + Lateral)</div><div class="wu-spec">15 reps each direction/side</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Ankle Circles + Dorsiflexion</div><div class="wu-spec">10 reps each direction/foot · critical for squat depth</div></div>
+          <div class="wu-item"><div class="wu-dot"></div><div class="wu-name">Bodyweight Squat</div><div class="wu-spec">2 × 10 · slow, controlled · feel the full range</div></div>
+        </div>
+        <div class="wu-sets-box">
+          <span>⚡</span>
+          <div><strong>Hack Squat (6 total = 3 WU + 3 working):</strong> WU Set 1: 40% × 12, WU Set 2: 60% × 8, WU Set 3: 80% × 4. Then 3 working sets.<br><strong>Bulgarian Split Squat (3 working + 2 WU):</strong> WU Set 1: BW × 8/leg, WU Set 2: light DB × 6/leg. Then 3 working sets.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase open">
+      <div class="phase-hdr" onclick="togglePhase(this)">
+        <div class="ph-icon phi-main">💪</div>
+        <div class="ph-meta"><div class="ph-title">Main Workout — Quads + Calves</div><div class="ph-sub">4 main exercises · ~55 min</div></div>
+        <div class="ph-time">0:15 – 1:10</div>
+        <div class="ph-chevron">▾</div>
+      </div>
+      <div class="phase-body">
+        <div class="ex-table">
+          <div class="ex-thead">
+            <div class="exth">#</div><div class="exth">Exercise</div><div class="exth">Sets</div><div class="exth">Reps</div><div class="exth">Rest ⏱</div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">01</div>
+              <div class="ex-info">
+                <div class="ex-name">Hack Squat (Machine)</div>
+                <div class="ex-equip">Machine · Quad Dominant · Bilateral Compound</div>
+                <div class="ex-tags">
+                  <span class="etag etag-wu">3 WU + 3 WORKING = 6 TOTAL</span>
+                  <button class="etag etag-swap" onclick="toggleExpand('t6-s1')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t6-t1')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">3</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">8–12 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(150)">2:30 min</button></div>
+            </div>
+            <div class="ex-expand" id="t6-s1"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">Leg Press (45°)</div><div class="swap-chip">Smith Machine Squat</div><div class="swap-chip">Safety Bar Squat</div></div></div>
+            <div class="ex-expand" id="t6-t1"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">Full depth — hip crease below knee. Feet shoulder-width, toes slightly out. Controlled descent (2–3 seconds). <strong>Knees track over toes — don't let them cave inward.</strong> Don't bounce at the bottom. Drive through heels, not toes, coming up.</div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">02</div>
+              <div class="ex-info">
+                <div class="ex-name">Bulgarian Split Squat (Dumbbell)</div>
+                <div class="ex-equip">Dumbbells · Quad + Glute · Unilateral · Balance</div>
+                <div class="ex-tags">
+                  <span class="etag etag-wu">+2 WARM-UP SETS</span>
+                  <button class="etag etag-swap" onclick="toggleExpand('t6-s2')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t6-t2')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">3</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">8–10/leg</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(120)">2:00 min</button></div>
+            </div>
+            <div class="ex-expand" id="t6-s2"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">Reverse Lunge (DB)</div><div class="swap-chip">Step-Up (elevated box)</div><div class="swap-chip">Split Squat (no elevation)</div></div></div>
+            <div class="ex-expand" id="t6-t2"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">Rear foot elevated on bench. <strong>Torso upright</strong> — if you lean forward it becomes a glute exercise, not quad. Front shin stays vertical. Slow descent — 2–3s. This exposes left/right imbalances — the weaker leg will feel completely different. That's exactly why you do it. <em>These are brutal. They're supposed to be.</em></div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">03</div>
+              <div class="ex-info">
+                <div class="ex-name">Leg Extension (Machine)</div>
+                <div class="ex-equip">Machine · Quad Isolation · VMO Focus</div>
+                <div class="ex-tags">
+                  <button class="etag etag-swap" onclick="toggleExpand('t6-s3')">⇄ SWAP</button>
+                  <button class="etag etag-tip"  onclick="toggleExpand('t6-t3')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">2</div><div class="ex-sets-lbl">WORKING</div></div>
+              <div class="ex-reps">12–15 reps</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(90)">1:30 min</button></div>
+            </div>
+            <div class="ex-expand" id="t6-s3"><div class="expand-label el-swap">↔ Substitutions</div><div class="swap-chips"><div class="swap-chip">Terminal Knee Extension (band)</div><div class="swap-chip">Sissy Squat (bodyweight)</div><div class="swap-chip">Wall Sit (isometric)</div></div></div>
+            <div class="ex-expand" id="t6-t3"><div class="expand-label el-tip">💡 Coaching Tip</div><div class="tip-body">Pause <strong>1 second at full extension</strong> at the top. Don't snap the weight up — controlled throughout. Toes slightly pointed in to hit VMO (inner quad sweep). <em>Don't go excessively heavy — this is joint-loaded at extension and too much weight is hard on patellar tendon.</em></div></div>
+          </div>
+
+          <div class="ex-row-wrap">
+            <div class="ex-row">
+              <div class="ex-num">04</div>
+              <div class="ex-info">
+                <div class="ex-name">Cycling (Cardio Finisher)</div>
+                <div class="ex-equip">Stationary Bike · Zone 2 · Low Impact Flush</div>
+                <div class="ex-tags">
+                  <button class="etag etag-tip" onclick="toggleExpand('t6-t4')">💡 TIP</button>
+                </div>
+              </div>
+              <div><div class="ex-sets">1</div><div class="ex-sets-lbl">SESSION</div></div>
+              <div class="ex-reps">15–20 min</div>
+              <div><button class="ex-rest-btn" onclick="startTimer(0)" style="pointer-events:none;opacity:.5">Zone 2</button></div>
+            </div>
+            <div class="ex-expand" id="t6-t4"><div class="expand-label el-tip">💡 Why Cycling After Legs?</div><div class="tip-body">After heavy quad work, cycling is the ideal cardio — <strong>no impact on knees or hips</strong>, but actively flushes lactic acid and blood through the worked muscles. 80–90 RPM at low resistance. Target HR 110–130 BPM. Nasal breathing. This is recovery cardio, not performance cardio.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase open">
+      <div class="phase-hdr" onclick="togglePhase(this)">
+        <div class="ph-icon phi-stretch">🧘</div>
+        <div class="ph-meta"><div class="ph-title">Cool-Down & Stretch</div><div class="ph-sub">Quad, hip flexor, knee + ankle · 10 min</div></div>
+        <div class="ph-time">1:25 – 1:35</div>
+        <div class="ph-chevron">▾</div>
+      </div>
+      <div class="phase-body">
+        <div class="stretch-grid">
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Kneeling Hip Flexor Stretch</div><div class="si-hold">60s each side</div><div class="si-tip">Hips pushed forward, tall posture. Critical for quad recovery — they attach at the hip.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Standing Quad Stretch</div><div class="si-hold">45s each leg</div><div class="si-tip">Hold ankle, knees together. Use wall for balance. Feel the rectus femoris lengthening.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Pigeon Pose (or Figure-4)</div><div class="si-hold">60s each side</div><div class="si-tip">Deep glute and hip capsule. Compensates for bilateral squat tightness.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">90/90 Hip Stretch</div><div class="si-hold">60s each side</div><div class="si-tip">Best hip internal + external rotation stretch available.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Seated Calf Stretch (Towel/Band)</div><div class="si-hold">45s each foot</div><div class="si-tip">Pull toes toward you. Gastrocnemius and soleus full stretch.</div></div></div>
+          <div class="si"><div class="si-dot"></div><div><div class="si-name">Supine Spinal Twist</div><div class="si-hold">45s each side</div><div class="si-tip">Lying down, knee drops across body. Lower back and SI joint decompression.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main><!-- end main-wrap -->
+
+<!-- ═══════════════ REST TIMER ═══════════════ -->
+<div class="timer-widget">
+  <div class="timer-panel" id="timerPanel">
+    <div class="timer-lbl">Rest Timer</div>
+    <div class="timer-display" id="timerDisplay">1:30</div>
+    <div class="timer-presets">
+      <button class="tp-btn" onclick="setPreset(60)">1:00</button>
+      <button class="tp-btn sel" onclick="setPreset(90)">1:30</button>
+      <button class="tp-btn" onclick="setPreset(120)">2:00</button>
+      <button class="tp-btn" onclick="setPreset(150)">2:30</button>
+    </div>
+    <div class="timer-controls">
+      <button class="tc-btn tcb-start" id="startBtn" onclick="toggleTimer()">Start</button>
+      <button class="tc-btn tcb-reset" onclick="resetTimer()">Reset</button>
+    </div>
+    <div class="timer-prog"><div class="timer-bar" id="timerBar"></div></div>
+  </div>
+  <button class="timer-fab" onclick="toggleTimerPanel()" title="Rest Timer">⏱</button>
+</div>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="forge-footer">
+  <div class="footer-logo">FORGE<span>.</span></div>
+  <div class="footer-copy">Build the body. Forge the will. · 4 Gym Days · 3 Kickboxing · 1 Full Rest · Hypertrophy + Fat Loss + Longevity</div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════
+   DAY NAVIGATION
+═══════════════════════════════════════ */
+function switchDay(idx) {
+  document.querySelectorAll('.day-panel').forEach((p, i) => {
+    p.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.wday-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === idx);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ═══════════════════════════════════════
+   PHASE COLLAPSE
+═══════════════════════════════════════ */
+function togglePhase(hdr) {
+  const phase = hdr.closest('.phase') || hdr.parentElement;
+  phase.classList.toggle('open');
+  const body = phase.querySelector('.phase-body');
+  if (body) body.style.display = phase.classList.contains('open') ? 'block' : 'none';
+}
+
+// Init: open all phases
+document.querySelectorAll('.phase').forEach(p => {
+  p.classList.add('open');
+  const body = p.querySelector('.phase-body');
+  if (body) body.style.display = 'block';
+});
+
+// Special handler for kb-morning (not a .phase)
+document.querySelectorAll('.kb-morning .phase-hdr').forEach(hdr => {
+  hdr.addEventListener('click', () => {
+    const body = hdr.nextElementSibling;
+    if (body) {
+      const isOpen = body.style.display === 'block';
+      body.style.display = isOpen ? 'none' : 'block';
+    }
+  });
+});
+
+/* ═══════════════════════════════════════
+   EXPAND ROWS (SWAP / TIP)
+═══════════════════════════════════════ */
+function toggleExpand(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle('open');
+}
+
+/* ═══════════════════════════════════════
+   REST TIMER
+═══════════════════════════════════════ */
+let timerInterval = null;
+let timerTotal = 90;
+let timerRemaining = 90;
+let timerRunning = false;
+
+function toggleTimerPanel() {
+  document.getElementById('timerPanel').classList.toggle('open');
+}
+
+function setPreset(secs) {
+  document.querySelectorAll('.tp-btn').forEach(b => b.classList.remove('sel'));
+  event.target.classList.add('sel');
+  resetTimer();
+  timerTotal = secs;
+  timerRemaining = secs;
+  updateDisplay();
+}
+
+function startTimer(secs) {
+  if (secs > 0) {
+    resetTimer();
+    timerTotal = secs;
+    timerRemaining = secs;
+    // Update preset button highlight
+    document.querySelectorAll('.tp-btn').forEach(b => {
+      b.classList.toggle('sel', parseInt(b.textContent.replace(':','').split(':').reduce((a,v,i)=>a+(i===0?parseInt(v)*60:parseInt(v)),0) || b.getAttribute('onclick').match(/\d+/)?.[0]) === secs);
+    });
+    updateDisplay();
+    document.getElementById('timerPanel').classList.add('open');
+  }
+  if (!timerRunning) toggleTimer();
+}
+
+function toggleTimer() {
+  const btn = document.getElementById('startBtn');
+  const disp = document.getElementById('timerDisplay');
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    btn.textContent = 'Resume';
+    disp.classList.remove('running');
+  } else {
+    if (timerRemaining <= 0) { resetTimer(); return; }
+    timerRunning = true;
+    btn.textContent = 'Pause';
+    disp.classList.add('running');
+    disp.classList.remove('done');
+    timerInterval = setInterval(() => {
+      timerRemaining--;
+      updateDisplay();
+      if (timerRemaining <= 0) {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        btn.textContent = 'Start';
+        disp.classList.remove('running');
+        disp.classList.add('done');
+        document.getElementById('timerBar').style.width = '0%';
+        document.getElementById('timerBar').style.background = 'var(--green)';
+        flashTimer();
+      }
+    }, 1000);
+  }
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerRemaining = timerTotal;
+  document.getElementById('startBtn').textContent = 'Start';
+  const disp = document.getElementById('timerDisplay');
+  disp.classList.remove('running', 'done');
+  const bar = document.getElementById('timerBar');
+  bar.style.width = '100%';
+  bar.style.background = 'var(--accent)';
+  updateDisplay();
+}
+
+function updateDisplay() {
+  const m = Math.floor(timerRemaining / 60);
+  const s = timerRemaining % 60;
+  document.getElementById('timerDisplay').textContent = `${m}:${s.toString().padStart(2,'0')}`;
+  const pct = timerTotal > 0 ? (timerRemaining / timerTotal) * 100 : 100;
+  document.getElementById('timerBar').style.width = pct + '%';
+  if (timerRemaining <= 10 && timerRemaining > 0) {
+    document.getElementById('timerBar').style.background = 'var(--accent)';
+    document.getElementById('timerDisplay').style.animation = 'none';
+  }
+}
+
+function flashTimer() {
+  const disp = document.getElementById('timerDisplay');
+  disp.textContent = 'GO!';
+  // Try audio beep
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [0, 0.15, 0.3].forEach(t => {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = 880;
+      g.gain.setValueAtTime(0.3, ctx.currentTime + t);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.1);
+      o.start(ctx.currentTime + t);
+      o.stop(ctx.currentTime + t + 0.15);
+    });
+  } catch(e) {}
+  setTimeout(() => {
+    timerRemaining = timerTotal;
+    updateDisplay();
+  }, 1500);
+}
+
+// Handle preset clicks with correct parsing
+document.querySelectorAll('.tp-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const match = this.getAttribute('onclick').match(/setPreset\((\d+)\)/);
+    if (match) {
+      document.querySelectorAll('.tp-btn').forEach(b => b.classList.remove('sel'));
+      this.classList.add('sel');
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerTotal = parseInt(match[1]);
+      timerRemaining = timerTotal;
+      document.getElementById('startBtn').textContent = 'Start';
+      document.getElementById('timerDisplay').classList.remove('running','done');
+      document.getElementById('timerBar').style.width = '100%';
+      document.getElementById('timerBar').style.background = 'var(--accent)';
+      updateDisplay();
+    }
+  });
+});
+
+// Init display
+updateDisplay();
+</script>
+</body>
+</html>
